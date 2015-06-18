@@ -1,0 +1,34 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct Stack
+{
+	int top;
+	int size;
+	int *array;
+};
+
+typedef struct Stack stack;
+
+stack *create_stack()
+{
+	stack stk;
+	stk=(stack*)malloc(sizeof(struct Stack));
+	stk->top=-1;
+	stk->size=1;
+	stk->array=(int*)malloc(size*sizeof(int));
+	return stk;
+}
+
+void twice_stack(stack **stk)
+{
+	*stk->size*=2;
+	
+}
+
+void push(stack *stk,int data)
+{
+	
+}
+
+int main()

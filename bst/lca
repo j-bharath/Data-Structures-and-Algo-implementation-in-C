@@ -1,0 +1,14 @@
+bst *lca(bst *root,int alpha,int beta)
+{
+	if(!root)
+	{
+		printf("no lca\n");
+		return 0;
+	}
+	else if(alpha<root->data && beta<root->data)
+	return(lca(root->left,alpha,beta));
+	else if(alpha>root->data && beta>root->data)
+	return(lca(root->right,alpha,beta));
+	else if((alpha<root->data &&beta>root->data)||(alpha<root->data &&beta>root->data))
+	return root;
+}

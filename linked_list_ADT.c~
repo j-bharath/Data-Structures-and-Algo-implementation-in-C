@@ -1,0 +1,39 @@
+#include<stdio.h>
+#include<stdlib.h>
+list *create_node(int num)
+{
+	list *node;
+	node=(list*)malloc(sizeof(struct List));
+	node->next=0;
+	node->data=num;
+	return node;
+}
+insert(list **head,list *node,int pos)
+{
+	list *temp;
+	int k=1;
+	if(*head==0)
+	{
+		*head->data=node->data;
+		head->next=0;
+	}
+	else if(pos==1)
+	{
+		node->next=*head;
+		*head=node;
+	}
+	else
+	{
+		temp=*head;
+		while(k!=pos || temp!=0)
+		{
+			temp=temp->next;
+			k++;
+		}
+		if(temp==0)
+		{
+			temp=node;
+			node->next=0;
+		}
+	}
+}

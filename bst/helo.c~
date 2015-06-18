@@ -1,0 +1,6 @@
+#include<stdio.h>
+printHelllo()
+{
+	printf("hello!!!\n");
+	return 0;
+}

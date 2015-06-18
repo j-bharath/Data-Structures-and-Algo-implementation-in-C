@@ -1,0 +1,40 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+void partition(int size,int arr[])
+{
+	int pivot,begin,end,temp;
+	pivot=0;
+	end=size-1;
+	begin=1;
+	while(end>begin)
+	{
+		while(arr[begin]<=arr[pivot])
+		begin++;
+		while(arr[end]>arr[pivot])
+		end--;
+		if(end>begin)
+		{
+			temp=arr[begin];
+			arr[begin]=arr[end];
+			arr[end]=temp;
+		}
+	}
+	temp=arr[pivot];
+	arr[pivot]=arr[end];
+	arr[end]=temp;
+}
+
+int main()
+{
+	int i,size;
+	scanf("%d",&size);
+	int arr[size];
+	for(i=0;i<size;i++)
+	scanf("%d",&arr[i]);
+	partition(size,arr);
+	for(i=0;i<size;i++)
+	printf("%d ",arr[i]);
+	return 0;
+}

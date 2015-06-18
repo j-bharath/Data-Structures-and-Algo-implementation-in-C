@@ -1,0 +1,17 @@
+#include"linked_list_ADT.c"
+#include<stdio.h>
+int main()
+{
+	list *head=0;
+	head=(list*)malloc(sizeof(struct List));
+	head->next=0;
+	if(!head)
+	{
+		printf("not enough memory\n");
+		exit(1);
+	}
+	int select;
+	printf("enter 1 -> insert, 2->");
+	scanf("%d",&select);
+	switch(select)
+}

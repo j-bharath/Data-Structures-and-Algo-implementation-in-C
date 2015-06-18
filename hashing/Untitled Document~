@@ -1,0 +1,18 @@
+
+void rehash(hashtable *h)
+{
+	hashnode *old;
+	node *temp,*temp1;
+	int i,oldsize,index;
+	old=h->table;
+	oldsize=h->tsize;
+	h->tsize=2*h->tsize;
+	h=createtable(h->tsize);
+	for(i=0;i<oldsize;i++)
+	{
+		for(temp=old[i].next;temp;temp=temp->next)
+		{
+			insert(h,temp->data);
+		}
+	}
+}

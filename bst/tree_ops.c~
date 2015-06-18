@@ -1,0 +1,235 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+struct Tree
+{
+	int data;
+	struct Tree *left;
+	struct Tree *right;
+};
+
+typedef struct Tree tree;
+
+struct Stack
+{
+	tree *node;
+	struct Stack *next;
+};
+
+typedef struct Stack stack;
+
+void push(stack **st,tree *element)
+{
+	stack *temp;
+	temp=(stack*)malloc(sizeof(struct Stack));
+	if(!temp)
+	{
+		printf("no space\n");
+		exit(1);
+	}
+	temp->node=element;
+	temp->next=*st;
+	*st=temp;
+}
+
+tree *pop(stack **st)
+{
+	stack *curr;
+	tree *node;
+	//temp=*st;
+	if(!(*st))
+	{
+		printf("stack is empty\n");
+		return 0;
+	}
+	curr=(*st);
+	(*st)=(*st)->next;
+	node=curr->node;
+	*st=temp;
+	return node;
+}
+
+void print(stack *st)
+{
+	stack *temp;
+	temp=st;
+	while(temp!=0)
+	{
+		printf("%d\t",temp->node->data);
+		temp=temp->next;
+	}
+}
+
+tree *findMin(tree *root)
+{
+	if(!root)
+	return 0;
+	if(root->left)
+	return(findMin(root->left));
+	else
+	return root;
+}
+
+tree *findMax(tree *root)
+{
+	if(!root)
+	return 0;
+	if(root->right)
+	return(findMax(root->right));
+	else
+	return root;
+}
+
+tree *insert(tree *root,int data)
+{
+	tree *new;
+	if(!root)
+	{
+		new=(tree*)malloc(sizeof(struct Tree));
+		if(!new)
+		{
+			printf("not enuf space\n");
+			exit(1);
+		}
+		new->data=data;
+		new->left=0;
+		new->right=0;
+		return new;
+	}
+	if(data<(root->data))
+	root->left=insert(root->left,data);
+	else if(data>(root->data))
+	root->right=insert(root->right,data);
+	return root;
+}
+
+void preorder(tree *root)
+{
+	stack *st=0;
+	while(1)
+	{
+		while(root)
+		{
+			printf("%d\t",root->data);
+			push(&st,root);
+			root=root->left;
+		}
+		if(st==0)
+		break;
+		root=pop(&st);
+		root=root->right;
+	}
+}
+
+void inorder(tree *root)
+{
+	stack *st=0;
+	while(1)
+	{
+		while(root)
+		{
+			push(&st,root);
+			root=root->left;
+		}
+		if(!st)
+		break;
+		root=pop(&st);
+		printf("%d\t",root->data);
+		root=root->right;
+	}
+}
+
+/*void inorder(tree *root)
+{
+	if(root)
+	{
+		inorder(root->left);
+		printf("%d\t",root->data);
+		inorder(root->right);
+	}
+}*/
+
+/*tree *delete(tree *root,int data)
+{
+	if(!root)
+	return root;
+	if(data<root->data)
+	root->left=delete(root->left,data);
+	else if(data>root->data)
+	root->right=delete(root->right,data);
+	else
+	{
+		tree *temp;
+		if(root->left && root->right)
+		{
+			temp=findMin(root->right);
+			root->data=temp->data;
+			root->right=delete(root->right,temp->data);
+		}
+		else
+		{
+			temp=root
+		}
+	}
+	return root;
+}*/
+
+int main()
+{
+	tree *root=0,*temp;
+	stack *st=0;
+	int i,selection,data;
+	FILE *fp;
+	fp=fopen("treeInput.txt","r");
+	printf("enter 1->insert, 2->preorder,3->inorder, 4->minimum,10->exit\n");
+	while(!feof(fp))
+	{
+		fscanf(fp,"%d",&data);
+		root=insert(root,data);
+	}
+	/*for(i=0;i<9;i++)
+	{
+		temp=(tree*)malloc(sizeof(struct Stack));
+		temp->data=i;
+		temp->left=temp->right=0;
+		push(&st,temp);
+	}
+	temp=pop(&st);
+	printf("\npopped = %d\n",temp->data);
+	print(st);
+	getchar();*/
+	while(1)
+	{
+		printf("enter ur selection\n");
+		scanf("%d",&selection);
+		switch(selection)
+		{
+			case 1:
+				printf("enter data\n");
+				scanf("%d",&data);
+				root=insert(root,data);
+				break;
+			case 2:
+				preorder(root);
+				printf("\n");
+				break;
+			case 3:
+				inorder(root);
+				printf("\n");
+				break;
+			case 4:
+				temp=findMin(root);
+				if(temp)
+				printf("min = %d\n",temp->data);
+				else
+				printf("empty tree\n");
+				break;
+			case 10:
+				exit(1);
+			default:
+				printf("invalid choice\n");
+				break;
+		}
+	}
+}

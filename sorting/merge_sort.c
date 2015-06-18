@@ -1,0 +1,71 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+void merge(int arr[],int temp[],int left,int mid,int right)
+{
+	int size,k,i;
+	k=mid-1;
+	size=right-left+1;
+	i=left;
+	printf("left=%d %d %d\n",left,mid,right);
+	while((left<=k) && (mid<=right))
+	{
+		if(arr[left]<=arr[mid])
+		{
+			temp[i]=arr[left];
+			i++;left++;
+		}
+		else
+		{
+			temp[i]=arr[mid];
+			i++;mid++;
+		}
+	}
+	while(left<=k)
+	{
+		temp[i]=arr[left];
+		i++;left++;
+	}
+	while(mid<=right)
+	{
+		temp[i]=arr[mid];
+		i++;mid++;
+	}
+	for(i=0;i<=size;i++)
+	{
+		arr[right]=temp[right];
+		right--;
+	}
+}
+
+void merge_sort(int arr[],int temp[],int left,int right)
+{
+	int mid;
+	if(right>left)
+	{
+		mid=(left+right)/2;
+		merge_sort(arr,temp,left,mid);
+		merge_sort(arr,temp,mid+1,right);
+		merge(arr,temp,left,mid+1,right);
+	}
+}
+
+
+
+void print(int arr[],int size)
+{
+	int i;
+	for(i=0;i<size;i++)
+	printf("%d\t",arr[i]);
+	printf("\n");
+}
+
+int main()
+{
+	int arr[10]={10,9,8,7,6,5,4,3,2,1};
+	int temp[10];
+	merge_sort(arr,temp,0,9);
+	print(arr,10);
+	return 0;
+}

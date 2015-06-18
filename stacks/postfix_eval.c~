@@ -1,0 +1,18 @@
+#include<stdio.h>
+#include"dynarray.c"
+#include<stdlib.h>
+
+int main()
+{
+	stack *stk;
+	char expr[30];
+	int i=0;
+	printf("enter a valid expression\n");
+	scanf("%s",expr);
+	stk=create_stack();
+	while(expr[i]!='\0')
+	{
+		if(expr[i]>=48 && expr[i]<=57)
+		push(stk,(int)expr[i])
+	}
+}

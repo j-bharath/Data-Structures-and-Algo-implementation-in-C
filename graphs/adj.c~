@@ -1,0 +1,94 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+int v;
+int e;
+
+struct list
+{
+	int vertex;
+	struct list *next;
+};
+
+typedef struct list list;
+
+list *create_list()
+{
+	list *g;
+	int i;
+	g=(list*)malloc(v*sizeof(struct list));
+	if(!g)
+	{
+		printf("no space\n");
+		exit(1);
+	}
+	for(i=0;i<v;i++)
+	{
+		g[i].vertex=i;
+		g[i].next=0;
+	}
+	return g;
+}
+
+void insert(list *g,int a,int b)
+{
+	list *node;
+	node=(list*)malloc(sizeof(struct list));
+	if(!node)
+	{
+		printf("no space\n");
+		exit(1);
+	}
+	node->vertex=b;
+	node->next=g[a].next;
+	g[a].next=node;
+}
+
+void print(list *g)
+{
+	int i;
+	list *temp;
+	for(i=0;i<v;i++)
+	{
+		printf("%2d\t",g[i].vertex);
+		temp=g[i].next;
+		while(temp)
+		{
+			printf("%d-->",temp->vertex);
+			temp=temp->next;
+		}
+		printf("\n");
+	}
+}
+
+
+int main()
+{
+	FILE *fp;
+	list *g;
+	int a,b;
+	fp=fopen("input.txt","r");
+	fscanf(fp,"%d %d",&v,&e);
+	g=create_list();
+	while(!feof(fp))
+	{
+		fscanf(fp,"%d%d",&a,&b);
+		insert(g,a,b);
+		printf("%d\t%d\n",a,b);
+	}
+	print(g);
+	fclose(fp);
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+

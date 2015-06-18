@@ -1,0 +1,286 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct List
+{
+	int data;
+	struct List *next;
+};
+
+typedef struct List list;
+
+list *loop;
+
+list *create_node()
+{
+	list *node;
+	node=(list*)malloc(sizeof(struct List));
+	if(!node)
+	{
+		printf("not enough memory\n");
+		exit(1);
+	}
+	printf("enter the data\n");
+	scanf("%d",&node->data);
+	node->next=0;
+	return node;
+}
+
+void insert(list **head,list *node,int pos)
+{
+	list *temp,*prev;
+	int k=1;
+	if(*head==0)
+	{
+		*head=node;
+		return;
+	}
+	if(pos==1)
+	{
+		node->next=*head;
+		*head=node;
+	}
+	else
+	{
+		temp=*head;
+		while(++k!=pos && temp->next!=0)
+		{
+			temp=temp->next;
+		}
+		if(temp->next==0)
+		temp->next=node;
+		else
+		{
+			node->next=temp->next;
+			temp->next=node;
+		}
+	}
+}
+
+int delete(list **head,int pos)
+{
+	list *curr,*prev;
+	int k=1,temp;
+	if(*head==0)
+	{
+		printf("list empty\n");
+		return;
+	}
+	if(pos==1)
+	{
+		printf("hello in delete when pos=1\n");
+		curr=*head;
+		*head=curr->next;
+		temp=curr->data;
+		free(curr);
+		return temp;
+	}
+	else
+	{
+		curr=*head;
+		while((k!=pos) && (curr->next!=0))
+		{
+			prev=curr;
+			curr=curr->next;
+			k++;
+		}
+		temp=curr->data;
+		prev->next=curr->next;
+		free(curr);
+	}
+	return temp;
+}
+
+delete_all(list **head)
+{
+	list *curr,*nxt;
+	curr=*head;
+	while(curr)
+	{
+		nxt=curr->next;
+		free(curr);
+		curr=nxt;
+	}
+	*head=0;
+}
+
+void print_list(list *head)
+{
+	list *temp;
+	//printf("hello\n");
+	temp=head;
+	while(temp!=0 || temp!=loop)
+	{
+		printf("%d-->",temp->data);
+		temp=temp->next;
+	}
+	//printf("%d",temp->data);
+	printf("\n");
+}
+
+list *nthLast(list *head,int n)
+{
+	list *ahead,*curr;
+	int k=1;
+	ahead=head;
+	curr=head;
+	while(k!=n)
+	{
+		ahead=ahead->next;
+		k++;
+	}
+	while(ahead->next!=0)
+	{
+		ahead=ahead->next;
+		curr=curr->next;	
+	}
+	return curr;
+}
+
+int check_loop(list *head)
+{
+	list *tort,*hare;
+	tort=head;
+	hare=head;
+	while(1)
+	{
+		hare=hare->next;
+		if(!hare)
+		return 0;
+		if(hare==tort)
+		return 1;
+		hare=hare->next;
+		if(!hare)
+		return 0;
+		if(hare==tort)
+		return 1;
+		tort=tort->next;
+	}
+}
+
+void create_loop(list **head,int pos)
+{
+	list *last;
+	int k=1;
+	last=*head;
+	loop=*head;
+	while(last->next!=0)
+	last=last->next;
+	while(k!=pos)
+	{
+		loop=loop->next;
+		k++;
+	}
+	last->next=loop;
+	printf("%d\n",loop->data);
+}
+
+list *reverse(list *head)
+{
+	list *ahead,*curr;
+	curr=NULL;ahead=NULL;
+	while(head)
+	{
+		ahead=head->next;
+		head->next=curr;
+		curr=head;
+		head=ahead;
+	}
+	return curr;
+}
+
+list *mid_node(list *head)
+{
+	list *slow,*fast;
+	slow=head;
+	fast=head;
+	if(head->next==0)
+	return head;
+	while(1)
+	{
+		fast=fast->next;
+		if(fast->next==0)
+		return slow;
+		slow=slow->next;
+		fast=fast->next;
+		if(fast->next==0)
+		return slow;
+	}
+	return 0;
+}
+
+int main()
+{
+	int select,position,n;
+	list *head,*temp,*mid;
+	head=0;
+	printf("1->insert,2->print,3->delete\n4->delete all,5->for nth from last, 6-> looping\n7->check for loop,8->reverse,9->midnode\n");
+	while(1)
+	{
+		printf("enter selection");
+		scanf("%d",&select);
+		switch(select)
+		{
+			case 1:
+				printf("enter position to insert\n");
+				scanf("%d",&position);
+				insert(&head,create_node(),position);
+				break;
+			case 2:
+				print_list(head);
+				break;
+			case 3:
+				printf("enter position to delete\n");
+				scanf("%d",&position);
+				delete(&head,position);
+				break;
+			case 4:
+				delete_all(&head);
+				break;
+			case 5:
+				printf("enter n from last\n");
+				scanf("%d",&n);
+				temp=nthLast(head,n);
+				printf("%d from last=%d",n,temp->data);
+				break;
+			case 6:
+				printf("enter the position to create loop\n");
+				scanf("%d",&position);
+				create_loop(&head,position);
+				break;
+			case 7:
+				if(!check_loop(head))
+				printf("no loop");
+				else
+				{
+					printf("head of loop = %d",loop->data);
+				}
+				break;
+			case 8:
+				head=reverse(head);
+				break;
+			case 9:
+				mid=mid_node(head);
+				printf("midnode = %d",mid->data);
+				break;
+			default:
+				printf("invalid choice\n");
+				break;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

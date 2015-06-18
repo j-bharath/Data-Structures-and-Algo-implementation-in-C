@@ -1,0 +1,9 @@
+struct List
+{
+	int data;
+	struct list *next;
+};
+
+typedef struct List node;
+
+

@@ -1,0 +1,25 @@
+
+void rehash(hashtable *h)
+{
+	hashnode *old;
+	node *temp,*temp1;
+	int i,oldsize,index;
+	old=h->table;
+	oldsize=h->tsize;
+	h->tsize=2*h->tsize;
+	h->table=(hashnode*)malloc(sizeof(struct hashnode)*h->tsize);
+	for(i=0;i<h->tsize;i++)
+	h->table[i].next=0;
+	for(i=0;i<oldsize;i++)
+	{
+		for(temp=old[i].next;temp;temp=temp->next)
+		{
+			index=hash(temp1->data,h->tsize);
+			temp1=temp;
+			temp=temp->next;
+			temp1=h->table[index].next;
+			h->table[index].next=temp1;
+		}
+	}
+}
+
